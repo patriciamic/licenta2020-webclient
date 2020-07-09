@@ -1,0 +1,207 @@
+<div class="container" *ngIf="!isBack">
+
+    <div class="card">
+
+        <div class="leftdiv">
+            <button class="btn-back" (click)="back()">  <img src="assets/img/left-arrow.png" alt="not found" /></button>
+
+            <div class="headerinfo">
+                <div class="text-card-title">
+                    Name:
+                </div>
+                <div class="text-card">
+                    {{data.patient.name}}
+                </div>
+
+                <div class="text-card-title">
+                    Address:
+                </div>
+                <div class="text-card">
+                    {{data.patient.address}}
+                </div>
+                <div class="text-card-title">
+                    Phone Number:
+                </div>
+                <div class="text-card">
+                    {{data.patient.phoneNumber}}
+                </div>
+
+                <div class="text-card-title">
+                    Diseases:
+                </div>
+                <div class="text-card">
+                    <div style="display: inline;" *ngFor=" let entry of data.diseases ">
+                        {{entry.name}} &nbsp;
+                    </div>
+                </div>
+            </div>
+
+            <div class="mini-card secondcard-left " (click)="showMedication()">
+                <div class="text-firstcorner ">
+                    Medications
+                </div>
+
+                <div class="text-secondcorner ">
+                    <img src="assets/img/pill.png " alt="not found " />
+                </div>
+            </div>
+
+            <div class="mini-card thirdcard-left " (click)="showConversation()">
+                <div class="text-firstcorner ">
+                    Conversations
+                </div>
+
+                <div class="text-secondcorner ">
+                    <img src="assets/img/chat.png " alt="not found " />
+                </div>
+            </div>
+        </div>
+
+        <div class="rightdiv">
+            <div class="container-med" *ngIf="isConvDisplayed">
+
+                <div class="very-big-title">
+                    Conversations
+                </div>
+
+                <div class="container-conv">
+                    <div *ngFor=" let entry of messages ">
+                        <div class="text-datetime-conv">
+                            {{entry.info.dateTime}}
+                        </div>
+                        <div *ngFor=" let message of entry.conversation ">
+                            <div class="buble-left"> {{message.properties.question}}
+                            </div>
+                            <div class="buble-right"> {{message.properties.answer}}
+                                <div class="positivity">
+                                    <div class="positive-text-color" *ngIf=" message.properties.type.includes('Positive')">
+                                        {{message.properties.type}}
+                                    </div>
+                                    <div class="negative-text-color" *ngIf=" message.properties.type.includes('Negative')">
+                                        {{message.properties.type}}
+                                    </div>
+                                    <div class="neutral-text-color" *ngIf=" message.properties.type.includes('Neutral')">
+                                        {{message.properties.type}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="container-statistics">
+                    <table id="customers" class="table table-hover">
+                        <thead>
+                            <tr class="head-table">
+                                <th scope="col ">Date Time</th>
+                                <th scope="col ">Positive</th>
+                                <th scope="col ">Negative</th>
+                                <th scope="col ">Neutral</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-active" *ngFor="let entry of statistics ">
+                                <!-- (click)="onStatisticsDayClicked(entry)" -->
+                                <td>{{entry.dateTime}}</td>
+                                <td>{{entry.positive}}%</td>
+                                <td>{{entry.negative}}%</td>
+                                <td>{{entry.neutral}}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-bg" *ngIf="isStatisticsDaySelected">
+                    <div class="modal-drugDetails">
+                        <button class="btn-close-modal" (click)=" isStatisticsDaySelected = false">X</button>
+                        <div class="modal-text-title">
+                            Today
+                        </div>
+                        <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:2%;">
+                            <thead>
+                                <tr class="head-table">
+                                    <th scope="col ">Symptom Checked</th>
+                                    <th scope="col "></th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody>
+                                <tr class="table-active" *ngFor="let entry of currentMedSelected.treatment.listHoursAndMinutes">
+                                    <td>{{entry.hour}}:{{entry.minutes}}</td>
+                                    <td>-</td>
+
+                                </tr>
+                            </tbody> -->
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="container-med" *ngIf="isMedDisplayed">
+
+                <div class="very-big-title">
+                    Medications
+                </div>
+
+
+                <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:1%">
+                    <thead>
+                        <tr class="head-table">
+                            <th scope="col ">Name</th>
+                            <th scope="col ">Start</th>
+                            <th scope="col ">Stop</th>
+                            <th scope="col ">Morning</th>
+                            <th scope="col ">Afternoon</th>
+                            <th scope="col ">Evening</th>
+                            <th scope="col ">Night</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-active" *ngFor="let entry of medication " (click)="showDrugDetails(entry)">
+                            <td>{{entry.drug.name}}</td>
+                            <td>{{entry.treatment.start}}</td>
+                            <td>{{entry.treatment.start}}</td>
+                            <td>{{entry.treatment.morning == 0 ? '-': 0 + '/' + entry.treatment.morning}}</td>
+                            <td>{{entry.treatment.afternoon == 0 ? '-': 0 + '/' + entry.treatment.afternoon}}</td>
+                            <td>{{entry.treatment.evening == 0 ? '-': 0 + '/' + entry.treatment.evening}}</td>
+                            <td>{{entry.treatment.night == 0 ? '-': 0 + '/' + entry.treatment.night}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="modal-bg" *ngIf="isDrugDetailsShowing">
+                    <div class="modal-drugDetails">
+                        <button class="btn-close-modal" (click)=" isDrugDetailsShowing = false">X</button>
+                        <div class="modal-text-title">
+                            Today
+                        </div>
+                        <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:2%;">
+                            <thead>
+                                <tr class="head-table">
+                                    <th scope="col ">Due Time</th>
+                                    <th scope="col ">Taken</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-active" *ngFor="let entry of currentMedSelected.treatment.listHoursAndMinutes">
+                                    <td>{{entry.hour}}:{{entry.minutes}}</td>
+                                    <td>-</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<app-pacient *ngIf="isBack "></app-pacient>

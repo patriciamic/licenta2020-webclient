@@ -1,0 +1,21 @@
+<!-- <div style="text-align:center">
+    <h1>
+        Welcome to {{ title }}!
+    </h1>
+</div> -->
+
+
+<!-- <div class="navbar"> -->
+<!-- <div class="nb-home" (click)="onClickNav('tab1')">Home</div> -->
+<!-- <div class="nb-pacients" (click)="onClickNav('tab2')">Patients</div> -->
+<!-- <div class="nb-myadministration" (click)="onClickNav('tab3')">My Administration</div> -->
+<!-- <div class="nb-conversation" (click)="onClickNav('tab4')">Conversation</div> -->
+<!-- <div class="nb-doctor" (click)="onClickNav('tab5')">Doctor</div> -->
+<!-- </div> -->
+
+
+<app-home *ngIf="isTab1"></app-home>
+<app-pacient *ngIf="isTab2"></app-pacient>
+
+
+<router-outlet></router-outlet>

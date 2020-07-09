@@ -1,0 +1,105 @@
+.color-primary {
+    color: rgb(19, 38, 65);
+}
+
+.color-accent {
+    color: rgb(74, 209, 199);
+}
+
+.color-accent-secondary {
+    color: rgb(249, 172, 25);
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    width: 15%;
+    height: 180px;
+    background-color: white;
+    box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.firstcard {
+    position: absolute;
+    top: 20%;
+    left: 23%;
+    /* box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2); */
+}
+
+.secondcard {
+    position: absolute;
+    top: 20%;
+    left: 43%;
+}
+
+.thirdcard {
+    position: absolute;
+    top: 20%;
+    left: 63%;
+}
+
+.search {
+    position: absolute;
+    width: 60%;
+    height: 60px;
+    background-color: white;
+    box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 25%;
+}
+
+.text-firstcorner {
+    position: absolute;
+    color: rgb(19, 38, 65);
+    font-size: 21px;
+    top: 15%;
+    left: 10%;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.text-secondcorner {
+    position: absolute;
+    right: 6%;
+    bottom: 10%;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+img.secondcard {
+    width: 75px;
+    height: 75px;
+}
+
+.img-search {
+    width: 60%;
+    height: 60%;
+}
+
+.input-search {
+    border: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    padding-left: 16px;
+    color: rgb(19, 38, 65);
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.search-button {
+    width: 4%;
+    height: 6%;
+    position: absolute;
+    margin-top: 25%;
+    right: 13%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}

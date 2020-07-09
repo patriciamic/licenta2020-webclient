@@ -1,0 +1,195 @@
+<div class="container" *ngIf="showPatientComponent">
+
+    <div *ngIf="isTableDisplayed && !isAddPacientClicked && !displayDisease && !displayMedication">
+
+        <div class="selected-card firstcard">
+            <div class="text-firstcorner">
+                Patients
+            </div>
+
+            <div class="text-secondcorner">
+                <img src="assets/img/account.png" alt="not found" />
+            </div>
+        </div>
+
+        <div class="float-card secondcard">
+            <div class="text-firstcorner">
+                Medications
+            </div>
+
+            <div class="text-secondcorner">
+                <img src="assets/img/pill.png" alt="not found" />
+            </div>
+        </div>
+
+        <div class="float-card thirdcard" (click)="onConversationClick()">
+            <div class="text-firstcorner">
+                Conversations
+            </div>
+
+            <div class="text-secondcorner">
+                <img src="assets/img/chat.png" alt="not found" />
+            </div>
+        </div>
+
+
+        <div style="margin-top: 18%;">
+            <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:1%">
+                <thead>
+                    <tr class="head-table">
+                        <th scope="col ">Name</th>
+                        <th scope="col ">
+                            Number of conversations</th>
+                        <th scope="col ">
+                            Date of last conversation</th>
+                        <th scope="col ">
+                            The result of the last conversation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-active card" *ngFor="let entry of patients " (click)="clickPatient(entry)">
+                        <td>{{entry.patient.name}}</td>
+                        <td>{{entry.countMessages}}</td>
+                        <td>{{entry.dateOfLastConversation}}</td>
+                        <td>{{entry.lastResult}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="isAddPacientClicked && !displayDisease && !displayMedication" class="form-addPacient" style="overflow-y: auto;">
+        <div style="margin-top: 5%;">
+            <form style="width: 80%; right: 0; left: 0; margin:auto; margin-top: 5%" id="form2" name="form2" #form="ngForm">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="inputContactName">Name</label>
+                        <input type="text" class="form-control" id="inputContactName" placeholder="Enter Name" [(ngModel)]="pacientModel.name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBirthdate">BirthDate</label>
+                        <input type="date" class="form-control" id="inputBirthdate" placeholder="Enter birthdate" [(ngModel)]="pacientModel.birthDate" name="birthdate">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone">Phone Number</label>
+                        <input type="text" class="form-control" id="inputPhone" placeholder="Phone Number" [(ngModel)]="pacientModel.phoneNumber" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="Address" [(ngModel)]="pacientModel.address" name="address">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div style="width: 80%; right: 0; left: 0; margin:auto; margin-top: 5%">
+            <div class="modal-text-title">Diseases:</div>
+            <div class="form-group">
+                <select class="custom-select dropdown-custom" [(ngModel)]="diseaseOptionSelected">
+                        <option class="form-control" *ngFor="let item of allDiseases">{{item.name}}</option>
+                    </select>
+            </div>
+            <div class="btn-add-item" (click)="addDiseaseNew()"> <img src="assets/img/float-add.png " alt="not found " style="width: 60%;" /></div>
+
+            <div style="clear:both;" class="m-text" *ngFor="let entry of diseases "> {{entry.name}}</div>
+        </div>
+
+
+        <div style="width: 80%; right: 0; left: 0; margin:auto; margin-top: 5%; clear:both">
+            <div class="modal-text-title">Medications:</div>
+            <div class="btn-add-item" (click)="addMedication()"> <img src="assets/img/float-add.png " alt="not found " style="width: 60%;" /></div>
+            <div style="clear:both;" class="m-text" *ngFor="let entry of medication ">{{entry.drug.name}}</div>
+        </div>
+
+        <button class="cancel" (click)="cancel('all') " style="clear: both;">
+            Cancel
+        </button>
+    </div>
+
+    <div *ngIf="displayDisease " class="form-addPacient ">
+        <div style="margin-top: 5%; ">
+            <div>
+                <div class="textLine ">
+                    Disease
+                </div>
+                <div class="line "></div>
+            </div>
+            <form style="width: 80%; right: 0; left: 0; margin:auto; margin-top: 5%" id="form3" name="form3" #form="ngForm">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="inputContactName">Name</label>
+                        <input type="text" class="form-control" id="inputContactName" placeholder="Enter Name" [(ngModel)]="diseaseModel.name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSymptoms">Symptoms</label>
+                        <input type="text" class="form-control" id="inputSymptoms" placeholder="Enter symptoms" [(ngModel)]="diseaseModel.symptoms" name="symptom">
+                    </div>
+                </fieldset>
+            </form>
+            <button class="add " (click)="saveDisease() "> Save Disease</button>
+            <button class="cancel" (click)="cancel('disease') ">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="displayMedication " class="form-addPacient " style="overflow-y: auto;">
+        <div style="margin-top: 5%; ">
+            <div>
+                <div class="textLine ">
+                    Medication
+                </div>
+                <div class="line "></div>
+            </div>
+            <form style="width: 80%; right: 0; left: 0; margin:auto; margin-top: 5%" id="form3" name="form3" #form="ngForm">
+                <fieldset>
+                    <div class="form-group">
+                        <select class="custom-select dropdown-custom" [(ngModel)]="drugOptionSelected" name="optselected">
+                        <option class="form-control" *ngFor="let entry of allDrugs"> {{entry.name}}</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDays">Days Interval</label>
+                        <input type="number" class="form-control" id="inputDays" placeholder="Enter days interval" [(ngModel)]="medicationModel.daysInterval" name="daysInterval">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStartDate">Start Date</label>
+                        <input type="date" class="form-control" id="inputStartDate" [(ngModel)]="medicationModel.startDate" name="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStopDate">Stop Date</label>
+                        <input type="date" class="form-control" id="inputStopDate" [(ngModel)]="medicationModel.stopDate" name="stopDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputHM">Add hour and minutes</label>
+                        <input type="text" class="form-control" id="inputHM" [(ngModel)]="hourAndMinutes" name="hourAndMinutes">
+                    </div>
+                    <div class="btn-add-item" (click)="addHourAndMinutes()"> <img src="assets/img/float-add.png " alt="not found " style="width: 60%;" /></div>
+                    <div style="clear:both;" class="m-text" *ngFor="let entry of listHourAndMinutes "> {{entry}}</div>
+                </fieldset>
+            </form>
+            <button class="add " (click)="saveMedication() "> Save Medication</button>
+            <button class="cancel" (click)="cancel('med') ">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+
+    <div class="footer " *ngIf="isTableDisplayed">
+        <button *ngIf="!isAddPacientClicked " class="button-add " (click)="addPacient() ">
+            Add
+        </button>
+        <button *ngIf="isAddPacientClicked " class="button-add " (click)="savePacient() ">
+          Save
+      </button>
+
+    </div>
+
+</div>
+
+<app-pacient-view *ngIf="!isTableDisplayed"></app-pacient-view>
+<app-conversation *ngIf="showConversationComponent"></app-conversation>

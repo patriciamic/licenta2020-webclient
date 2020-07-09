@@ -1,0 +1,144 @@
+<div *ngIf="!showConversationComponent">
+    <button class="btn-back" (click)="showConversationComponent = true">  <img src="assets/img/left-arrow.png" alt="not found" /></button>
+
+    <div class="very-big-title">
+        Creating the Conversation Tree
+    </div>
+
+    <button class="btn-save" (click)="saveConversation()">Save Conversation</button>
+
+    <div class="main-zone-of-creation">
+        <form id="formTitle" name="formTitle" #form="ngForm">
+            <fieldset>
+                <div class="form-group">
+                    <label class="text-title" for="inputTitle">Title</label>
+                    <input type="text" style="padding:20px" class="form-control" id="inputTitle" placeholder="Enter Title" [(ngModel)]="conversationName" name="name">
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="add-node-zone">
+            <div style="width: 100%; margin-top: 5%;">
+                <label class="text-title" for="inputSymptom">Add Symptom</label>
+                <div>
+                    <div class="inline form-group" style="width: 30%;">
+                        <select class="custom-select dropdown-custom" [(ngModel)]="nodeModelView.symptom">
+                  <option class="form-control" *ngFor="let item of selectableListSymptoms">{{item}}</option>
+                </select>
+                    </div>
+                    <div class="inline">
+                        <label class="text-title" style="margin-top: 8px">or</label>
+                    </div>
+                    <div class="inline form-group">
+                        <input type="text" style="width: 250%; padding: 20px" class="form-control" id="inputSymptom" placeholder="Enter new symptom" [(ngModel)]="nodeModelView.symptom" name="symptom">
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="width: 100%; margin-top: 10%;" class="clearBoth">
+                <label class="text-title" for="inputQuestion">Add Question</label>
+                <div>
+                    <div class="inline form-group" style="width: 30%;">
+                        <select class="custom-select dropdown-custom" [(ngModel)]="nodeModelView.question">
+                <option class="form-control" *ngFor="let item of selectableListQuestions">{{item}}</option>
+              </select>
+                    </div>
+                    <div class="inline">
+                        <label class="text-title" style="margin-top: 8px">or</label>
+                    </div>
+                    <div class="inline form-group">
+                        <input type="text" style="width: 250%; padding: 20px" class="form-control" id="inputQuestion" placeholder="Enter new question" [(ngModel)]="nodeModelView.question" name="question">
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10%;" id="form5" class="clearBoth">
+                <label class="text-title" for="inputContactName">Select Type</label>
+                <div class="form-group" style="width: 30%;">
+                    <select class="custom-select dropdown-custom" [(ngModel)]="nodeModelView.type">
+              <option class="form-control" *ngFor="let item of typeList">{{item}}</option>
+            </select>
+                </div>
+            </div>
+
+            <button class="btn-add-node" (click)="onAddNodeClicked()">Add Node</button>
+
+        </div>
+
+    </div>
+
+    <div class="right-zone">
+        <div class="mini-container h50">
+            <div class="title-mini-container">Nodes Added</div>
+
+            <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:1%">
+
+                <tbody>
+                    <tr class="table-active item-list" *ngFor="let entry of listView" (click)="onNodeSelected(entry)">
+                        <td>
+                            <span *ngIf="entry.properties.type == 'negative'" class="text-item type-negative">{{entry.properties.type}}</span>
+                            <span *ngIf="entry.properties.type == 'positive'" class="text-item type-positive">{{entry.properties.type}}</span>
+                            <span *ngIf="entry.properties.type == 'neutral'" class="text-item type-neutral">{{entry.properties.type}}</span>
+                        </td>
+                        <td>
+                            <span class="text-item">{{entry.properties.symptom}}</span>
+                        </td>
+                        <td>
+                            <span class="text-item">{{entry.properties.question}}</span>
+                            <span *ngIf="entry.properties.first" class="text-item" style="font-weight: bold;">HEAD</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <div class="mini-container h20">
+            <div class="title-mini-container">Parent</div>
+            <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:1%">
+                <tbody>
+                    <tr class="table-active item-list">
+                        <td>
+                            <span *ngIf="currentParentView.properties.type == 'negative'" class="text-item type-negative">{{currentParentView.properties.type}}</span>
+                            <span *ngIf="currentParentView.properties.type == 'positive'" class="text-item type-positive">{{currentParentView.properties.type}}</span>
+                            <span *ngIf="currentParentView.properties.type == 'neutral'" class="text-item type-neutral">{{currentParentView.properties.type}}</span></td>
+                        <td> <span class="text-item">{{currentParentView.properties.symptom}}</span></td>
+                        <td> <span class="text-item">{{currentParentView.properties.question}}</span>
+                            <span *ngIf="currentParentView.properties.first" class="text-item" style="font-weight: bold;">HEAD</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mini-container h30">
+            <div class="title-mini-container">Children</div>
+
+            <table id="customers" class="table table-hover " style="width: 100%; right: 0; left: 0; margin:auto;  margin-top:1%">
+
+                <tbody>
+                    <tr class="table-active item-list" *ngFor="let entry of childrenListView" (click)="onNodeSelected(entry)">
+                        <td>
+                            <span *ngIf="entry.properties.type == 'negative'" class="text-item type-negative">{{entry.properties.type}}</span>
+                            <span *ngIf="entry.properties.type == 'positive'" class="text-item type-positive">{{entry.properties.type}}</span>
+                            <span *ngIf="entry.properties.type == 'neutral'" class="text-item type-neutral">{{entry.properties.type}}</span>
+                        </td>
+                        <td>
+                            <span class="text-item">{{entry.properties.symptom}}</span>
+                        </td>
+                        <td>
+                            <span class="text-item">{{entry.properties.question}}</span>
+                            <span *ngIf="entry.properties.first" class="text-item" style="font-weight: bold;">HEAD</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+<app-conversation *ngIf="showConversationComponent"></app-conversation>
